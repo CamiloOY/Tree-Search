@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <stack>
 
 template<typename T>
 class Node {
@@ -58,6 +59,28 @@ public:
 		while(!fringe.empty()) {
 			auto top = fringe.front();
 			fringe.pop();
+			if(top->getState() == goal_state) {
+				final_node = top;
+				break;
+			}
+			for(auto el : top->getChildren()) {
+				fringe.push(el);
+			}
+		}
+		while(final_node != nullptr) {
+			std::cout << final_node->getState() << '\n';
+			final_node = final_node->getParent();
+		}
+	}
+
+	void depth_first_search(T goal_state) {
+		std::stack<Node<T>*> fringe;
+		fringe.push(this->getRoot());
+		Node<T>* final_node = nullptr;
+		while(!fringe.empty()) {
+			auto top = fringe.top();
+			fringe.pop();
+			std::cout << top->getState() << '\n';
 			if(top->getState() == goal_state) {
 				final_node = top;
 				break;
