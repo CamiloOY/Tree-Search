@@ -8,6 +8,7 @@ class Node {
 public:
 	int depth = -1;
 	T state;
+	bool expanded = false;
 
 	Node<T>* addChild(T state) {
 		Node<T>* node = new Node<T>();
@@ -22,16 +23,20 @@ public:
 		return children;
 	}
 
-	int getDepth() {
+	int getDepth() { // Also useless
 		return depth;
 	}
 
-	T getState() {
+	T getState() { // This method is pretty useless since state is already public
 		return state;
 	}
 
 	Node<T>* getParent() {
 		return parent;
+	}
+
+	~Node() {
+		std::cout << "Deleting " << state << '\n';
 	}
 
 private:
@@ -79,7 +84,11 @@ public:
 		Node<T>* final_node = nullptr;
 		while(!fringe.empty()) {
 			auto top = fringe.top();
-			fringe.pop();
+			if(top->expanded) {
+				delete top;
+				fringe.pop();
+				continue;
+			}
 			std::cout << top->getState() << '\n';
 			if(top->getState() == goal_state) {
 				final_node = top;
@@ -88,6 +97,7 @@ public:
 			for(auto el : top->getChildren()) {
 				fringe.push(el);
 			}
+			top->expanded = true;
 		}
 		while(final_node != nullptr) {
 			std::cout << final_node->getState() << '\n';
