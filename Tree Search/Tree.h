@@ -7,13 +7,14 @@ template<typename T>
 class Node {
 public:
 	int depth = -1;
-	T state;
 	bool expanded = false;
 
+	Node(T state): state(state) {
+	}
+
 	Node<T>* addChild(T state) {
-		Node<T>* node = new Node<T>();
+		Node<T>* node = new Node<T>(state);
 		node->parent = this;
-		node->state = state;
 		node->depth = depth + 1;
 		children.push_back(node);
 		return node;
@@ -23,11 +24,7 @@ public:
 		return children;
 	}
 
-	int getDepth() { // Also useless
-		return depth;
-	}
-
-	T getState() { // This method is pretty useless since state is already public
+	T getState() {
 		return state;
 	}
 
@@ -42,15 +39,15 @@ public:
 private:
 	std::vector<Node<T>*> children;
 	Node<T>* parent;
+	T state;
 };
 
 template<typename T>
 class Tree {
 public:
 	Tree(T root_state) {
-		root = new Node<T>();
+		root = new Node<T>(root_state);
 		root->depth = 0;
-		root->state = root_state;
 	}
 
 	Node<T>* getRoot() {
