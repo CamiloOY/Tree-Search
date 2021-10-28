@@ -105,6 +105,35 @@ public:
 		}
 	}
 
+	void depth_limited_search(T goal_state, int limit) {
+		std::stack<Node<T>*> fringe;
+		fringe.push(this->getRoot());
+		Node<T>* final_node = nullptr;
+		while(!fringe.empty()) {
+			auto top = fringe.top();
+			if(top->expanded) {
+				delete top;
+				fringe.pop();
+				continue;
+			}
+			std::cout << top->getState() << '\n';
+			if(top->getState() == goal_state) {
+				final_node = top;
+				break;
+			}
+			if(top->depth != limit) {
+				for(auto el : top->getChildren()) {
+					fringe.push(el);
+				}
+			}
+			top->expanded = true;
+		}
+		while(final_node != nullptr) {
+			std::cout << final_node->getState() << '\n';
+			final_node = final_node->getParent();
+		}
+	}
+
 private:
 	Node<T>* root;
 	int depth = 1;

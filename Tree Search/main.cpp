@@ -38,6 +38,6 @@ int main() {
 	timi->addChild("Lugoj");
 	zer->addChild("Arad");
 	zer->addChild("Oradea");
-	tree.depth_first_search("");
+	tree.depth_limited_search("", 1);
 	return 0;
 }
