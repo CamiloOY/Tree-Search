@@ -54,7 +54,7 @@ public:
 		return root;
 	}
 
-	void breadth_first_search(T goal_state) {
+	std::vector<T> breadth_first_search(T goal_state) {
 		std::queue<Node<T>*> fringe;
 		fringe.push(this->getRoot());
 		Node<T>* final_node = nullptr;
@@ -69,13 +69,20 @@ public:
 				fringe.push(el);
 			}
 		}
-		while(final_node != nullptr) {
-			std::cout << final_node->getState() << '\n';
-			final_node = final_node->getParent();
+
+		std::vector<T> solution;
+		if(final_node != nullptr) {
+			solution.reserve(final_node->depth + 1);
+			while(final_node != nullptr) {
+				solution.push_back(final_node->getState());
+				std::cout << final_node->getState() << '\n';
+				final_node = final_node->getParent();
+			}
 		}
+		return solution;
 	}
 
-	void depth_first_search(T goal_state) {
+	std::vector<T> depth_first_search(T goal_state) {
 		std::stack<Node<T>*> fringe;
 		fringe.push(this->getRoot());
 		Node<T>* final_node = nullptr;
@@ -96,13 +103,20 @@ public:
 			}
 			top->expanded = true;
 		}
-		while(final_node != nullptr) {
-			std::cout << final_node->getState() << '\n';
-			final_node = final_node->getParent();
+
+		std::vector<T> solution;
+		if(final_node != nullptr) {
+			solution.reserve(final_node->depth + 1);
+			while(final_node != nullptr) {
+				solution.push_back(final_node->getState());
+				std::cout << final_node->getState() << '\n';
+				final_node = final_node->getParent();
+			}
 		}
+		return solution;
 	}
 
-	void depth_limited_search(T goal_state, int limit) {
+	std::vector<T> depth_limited_search(T goal_state, int limit) {
 		std::stack<Node<T>*> fringe;
 		fringe.push(this->getRoot());
 		Node<T>* final_node = nullptr;
@@ -125,10 +139,17 @@ public:
 			}
 			top->expanded = true;
 		}
-		while(final_node != nullptr) {
-			std::cout << final_node->getState() << '\n';
-			final_node = final_node->getParent();
+
+		std::vector<T> solution;
+		if(final_node != nullptr) {
+			solution.reserve(final_node->depth + 1);
+			while(final_node != nullptr) {
+				solution.push_back(final_node->getState());
+				std::cout << final_node->getState() << '\n';
+				final_node = final_node->getParent();
+			}
 		}
+		return solution;
 	}
 
 private:
